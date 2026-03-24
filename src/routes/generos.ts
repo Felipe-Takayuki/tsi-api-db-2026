@@ -16,7 +16,13 @@ router.get("/", (req: Request, res: Response) => {
 });
 
 router.post("/", (req: Request, res: Response) => {
-    const {nome} = req.body
+    const {nome} = req.body;
+
+    if(!nome || nome.trim() === "") {
+        return res.status(400).json(
+            { erro : "O campo nome do gênero é obrigatório."}
+        );
+    }
 
     db.run(
         "INSERT INTO generos (nome) VALUES (?)",

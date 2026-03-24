@@ -17,3 +17,6 @@ Content-Type: application/json
 {
     "nome" : "Fantasia Medieval"
 }
+
+###
+DELETE {{url}}/1
