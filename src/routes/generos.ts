@@ -36,4 +36,33 @@ router.post("/", (req: Request, res: Response) => {
     );
 });
 
+
+router.put("/:id", (req : Request, res: Response) => {
+    const id = Number(req.params.id);
+    const {nome} = req.body;
+
+    db.run(
+        "UPDATE generos SET nome = ? WHERE id = ?",
+        [nome, id],
+        function(erro) {
+            if(erro) {
+                return res.status(500).json(
+                    { erro: "Erro ao atualizar gênero." }
+                );
+            }
+
+            if(this.changes === 0) {
+                return res.status(404).json(
+                    { erro: "Gênero não encontrado"}
+                );
+            }
+
+            res.json({
+                id,
+                nome
+            })
+        });
+});
+
+
 export default router;
