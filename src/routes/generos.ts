@@ -61,7 +61,31 @@ router.put("/:id", (req : Request, res: Response) => {
                 id,
                 nome
             })
-        });
+    });
+});
+
+router.delete("/:id", (req : Request, res: Response) => {
+    const id = Number(req.params.id);
+
+    db.run(
+        "DELETE FROM generos WHERE id = ?",
+        [id],
+        function(erro) {
+            if(erro) {
+                return res.status(500).json(
+                    { erro: "Erro ao remover gênero." }
+                );
+            }
+
+            if(this.changes === 0) {
+                return res.status(404).json(
+                    { erro: "Gênero não encontrado"}
+                );
+            }
+
+            res.status(204).send();
+        }
+    );
 });
 
 
